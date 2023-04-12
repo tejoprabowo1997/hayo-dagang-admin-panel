@@ -2,6 +2,7 @@
 import { useToast } from 'vue-toastification'
 const toast = useToast()
 const router = useRouter()
+const dataUser = useCookie<{ roleUser: string }>('roleUser')
 
 const usernameOrEmail = ref<string>('admin')
 const usernameOrEmailError = ref<{ error: boolean; msgError: string }>({
@@ -37,9 +38,12 @@ const loginProcess = async () => {
   const error = validation()
   if (error) return
 
-  if (usernameOrEmail.value === 'admin' && password.value === 'admin') toast.success('Selamat datang')
+  if (usernameOrEmail.value === 'admin' && password.value === 'admin') dataUser.value = { roleUser: 'ADMIN' }
+  else if (usernameOrEmail.value === 'vendor' && password.value === 'vendor') dataUser.value = { roleUser: 'VENDOR' }
+  else if (usernameOrEmail.value === 'seller' && password.value === 'seller') dataUser.value = { roleUser: 'SELLER' }
   else return toast.error('Credential not valid!')
 
+  toast.success(`Selamat datang di ${usernameOrEmail.value} panel`)
   await router.push('/dashboard')
 }
 </script>

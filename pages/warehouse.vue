@@ -18,6 +18,7 @@ interface IWarehouse {
   products: IProducts[]
 }
 
+const page = ref<number>(1)
 const warehouse = ref<IWarehouse[]>([
   {
     warehouseName: 'Warehouse 1',
@@ -142,6 +143,9 @@ const warehouse = ref<IWarehouse[]>([
                 </tr>
               </tbody>
             </v-table>
+          </v-col>
+          <v-col cols="12" justify="end">
+            <v-pagination v-model="page" :length="300" :total-visible="10" />
           </v-col>
         </v-row>
       </v-card-text>
